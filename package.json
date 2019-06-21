@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mlbgames": "^1.0.5"
+    "mlbgames": "^1.0.5",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   }
 }
