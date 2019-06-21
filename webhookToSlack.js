@@ -25,11 +25,36 @@ const SLACK_URL = 'https://hooks.slack.com/services/THVDE88G2/BKS9BMWKX/NzSddK9m
     //get data from main.js - maybe refactor this to be a called function in main
     //for now hardcode test data
 
-    //send to webhook
+    //create post body
+    const slackPostBody = {
+      method: 'POST',
+      text: 'i can ride my bike with no handlebars',
+      attachments: [
+        {
+          color: '#40e0d0',
+          text: 'no handlebars'
+        },
+        {
+          color: '#40e0d0',
+          text: 'no handlebars?'
+        }
+      ]
+    };
 
+    //send to webhook
+    const response = await request({
+      url: SLACK_URL,
+      method: 'POST',
+      body: slackPostBody,
+      json: true
+    });
+
+    console.log(response);
 
   }
   catch(error) {
     console.error('hey we got error: ', error);
   }
+
+  debugger;
 })();
