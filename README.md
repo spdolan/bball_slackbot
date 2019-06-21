@@ -12,7 +12,7 @@ Troll bot created by Project Shift Cohort 6. This is a general planning doc - an
   - [ ] store in database?
   - [ ] create interface for view
 - [ ] send through webhook - 'view'
-  - [ ] get slack channel link
+  - [X] get slack channel link
   - [ ] create post request
   - [ ] send post req to slack channel
   - [ ] auto 'render' when model changes

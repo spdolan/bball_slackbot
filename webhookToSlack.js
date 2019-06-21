@@ -28,15 +28,16 @@ const SLACK_URL = 'https://hooks.slack.com/services/THVDE88G2/BKS9BMWKX/NzSddK9m
     //create post body
     const slackPostBody = {
       method: 'POST',
-      text: 'i can ride my bike with no handlebars',
+      text: 'sorry i\'m just hitting f5 on this',
       attachments: [
         {
-          color: '#40e0d0',
-          text: 'no handlebars'
+          color: 'danger',
+          text: 'this is a dangerous attachment'
         },
         {
+          mkdown: true,
           color: '#40e0d0',
-          text: 'no handlebars?'
+          text: '*this is a bold attachment*'
         }
       ]
     };
