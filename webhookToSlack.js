@@ -4,6 +4,7 @@
  */
 
  /**
+  * [ ] convert to module pattern and export
   * [X] get url from ~jorge's~ new webhook
   * [ ] create post request
   * [X] send post request to url
@@ -11,53 +12,56 @@
   * [ ] set bot name
   */
 
-//!DON'T CHANGE CHANNEL BOT IS POSTED TO UNTIL TESTING IS COMPLETE!
+ //!DON'T CHANGE CHANNEL BOT IS POSTED TO UNTIL TESTING IS COMPLETE!
+ const request = require('request-promise');
 
-const request = require('request-promise');
+ const webhookToSlack = () => {
+  
 
-const SLACK_URL = 'https://hooks.slack.com/services/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';
+  const SLACK_URL = 'https://hooks.slack.com/services/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';
 
+  const sendMessage = async (target, message, altMessage) => {
+    try {
 
+      //get data from main.js - maybe refactor this to be a called function in main
+      //for now hardcode test data
 
-const sendMessage = async () => {
-  try {
+      //create post body
+      const slackPostBody = {
+        method: 'POST',
+        text: message,
+        attachments: [
+          {
+            mkdown: true,
+            color: '#40e0d0',
+            text: altMessage
+          }
+        ]
+      };
 
-    //get data from main.js - maybe refactor this to be a called function in main
-    //for now hardcode test data
+      //send to webhook
+      const response = await request({
+        url: SLACK_URL,
+        method: 'POST',
+        body: slackPostBody,
+        json: true
+      });
 
-    //create post body
-    const slackPostBody = {
-      method: 'POST',
-      text: 'testing testing',
-      attachments: [
-        {
-          color: 'danger',
-          text: 'not using an iife anymore'
-        },
-        {
-          mkdown: true,
-          color: '#40e0d0',
-          text: '*but it\'s still async*'
-        }
-      ]
-    };
+      console.log(response);
 
-    //send to webhook
-    const response = await request({
-      url: SLACK_URL,
-      method: 'POST',
-      body: slackPostBody,
-      json: true
-    });
+    }
+    catch(error) {
+      console.error('hey we got error: ', error);
+    }
 
-    console.log(response);
+  };
 
+  return {
+    sendMessage
   }
-  catch(error) {
-    console.error('hey we got error: ', error);
-  }
 
-  debugger;
 };
 
-sendMessage();
+//export to use in main.js
+//using this syntax, es6 syntax we learned requires installing babel
+module.exports = webhookToSlack;
