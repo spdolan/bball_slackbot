@@ -6,7 +6,7 @@
  /**
   * [X] get url from ~jorge's~ new webhook
   * [ ] create post request
-  * [ ] send post request to url
+  * [X] send post request to url
   * [ ] customize bot appearance
   * [ ] set bot name
   */
@@ -18,8 +18,8 @@ const request = require('request-promise');
 const SLACK_URL = 'https://hooks.slack.com/services/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';
 
 
-//async iife? like the cool kids do
-(async function() {
+
+const sendMessage = async () => {
   try {
 
     //get data from main.js - maybe refactor this to be a called function in main
@@ -28,16 +28,16 @@ const SLACK_URL = 'https://hooks.slack.com/services/THVDE88G2/BKS9BMWKX/NzSddK9m
     //create post body
     const slackPostBody = {
       method: 'POST',
-      text: 'sorry i\'m just hitting f5 on this',
+      text: 'testing testing',
       attachments: [
         {
           color: 'danger',
-          text: 'this is a dangerous attachment'
+          text: 'not using an iife anymore'
         },
         {
           mkdown: true,
           color: '#40e0d0',
-          text: '*this is a bold attachment*'
+          text: '*but it\'s still async*'
         }
       ]
     };
@@ -58,4 +58,6 @@ const SLACK_URL = 'https://hooks.slack.com/services/THVDE88G2/BKS9BMWKX/NzSddK9m
   }
 
   debugger;
-})();
+};
+
+sendMessage();
