@@ -12,6 +12,9 @@ const webhookToSlack = require('./webhookToSlack');
 //   console.log(games);
 //   //... do something
 // });
-debugger;
+
 const slackbot = webhookToSlack();
-slackbot.sendMessage('Sean', 'let\'s see if this works...', 'now with alt text');
+
+const memberID = '<@UJJ36DESJ>';
+
+slackbot.sendMessage(memberID, 'let\'s see if this works...', 'now with alt text');

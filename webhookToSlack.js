@@ -6,7 +6,8 @@
  /**
   * [ ] convert to module pattern and export
   * [X] get url from ~jorge's~ new webhook
-  * [ ] create post request
+  * [X] create post request
+  *   [X] need target user name implementation
   * [X] send post request to url
   * [ ] customize bot appearance
   * [ ] set bot name
@@ -29,7 +30,7 @@
       //create post body
       const slackPostBody = {
         method: 'POST',
-        text: message,
+        text: `${target} ${message}`,
         attachments: [
           {
             mkdown: true,
