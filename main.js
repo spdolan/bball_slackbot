@@ -15,6 +15,7 @@ const webhookToSlack = require('./webhookToSlack');
 
 const slackbot = webhookToSlack();
 
+const SLACK_CHANNEL_URL = 'https://hooks.slack.com/services/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';
 const memberID = '<@UJJ36DESJ>';
 
-slackbot.sendMessage(memberID, 'let\'s see if this works...', 'now with alt text');
+slackbot.sendMessage(SLACK_CHANNEL_URL, 'testing with user but no altmessage', memberID);
