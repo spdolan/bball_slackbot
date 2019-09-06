@@ -13,17 +13,6 @@ const yesterdayFormatted = yesterdayArray.splice(1,3).join("/");
 
 const slackInfo = require('./config');
 
-// const Mlbgames = require('mlbgames');
-// const options = {
-//   path: 'year_2019/month_06/day_19/'
-// };
-
-// const mlbgames = new Mlbgames(options);
-// mlbgames.get((err, games) => {
-//   console.log(games);
-//   //... do something
-// });
-
 const slackbot = webhookToSlack();
 
 
