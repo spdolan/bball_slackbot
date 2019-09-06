@@ -1,6 +1,7 @@
 
 
 const webhookToSlack = require('./webhookToSlack');
+const slackInfo = require('./config');
 
 // const Mlbgames = require('mlbgames');
 // const options = {
@@ -15,7 +16,5 @@ const webhookToSlack = require('./webhookToSlack');
 
 const slackbot = webhookToSlack();
 
-const SLACK_CHANNEL_URL = 'https://hooks.slack.com/services/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';
-const memberID = '<@UJJ36DESJ>';
 
-slackbot.sendMessage(SLACK_CHANNEL_URL, 'testing with user but no altmessage', memberID);
+slackbot.sendMessage(slackInfo.SLACK_CHANNEL_URL, 'testing with user but no altmessage', slackInfo.MEMBER_ID);
