@@ -11,6 +11,7 @@ const yesterdayFormatted = yesterdayArray.splice(1,3).join("/");
 
   //create path string if Boston had a game 
 
+const slackInfo = require('./config');
 
 // const Mlbgames = require('mlbgames');
 // const options = {
@@ -25,6 +26,5 @@ const yesterdayFormatted = yesterdayArray.splice(1,3).join("/");
 
 const slackbot = webhookToSlack();
 
-const memberID = '<@UJJ36DESJ>';
 
-slackbot.sendMessage(memberID, 'let\'s see if this works...', 'now with alt text');
+slackbot.sendMessage(slackInfo.SLACK_CHANNEL_URL, 'testing with user but no altmessage', slackInfo.MEMBER_ID);

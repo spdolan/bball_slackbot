@@ -4,7 +4,7 @@
  */
 
  /**
-  * [ ] convert to module pattern and export
+  * [X] convert to module pattern and export
   * [X] get url from ~jorge's~ new webhook
   * [X] create post request
   *   [X] need target user name implementation
@@ -17,20 +17,15 @@
  const request = require('request-promise');
 
  const webhookToSlack = () => {
-  
 
-  const SLACK_URL = 'https://hooks.slack.com/services/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';
-
-  const sendMessage = async (target, message, altMessage) => {
+  const sendMessage = async (slackURL, message, target, altMessage) => {
     try {
-
-      //get data from main.js - maybe refactor this to be a called function in main
-      //for now hardcode test data
-
       //create post body
+      const messageWithTarget = (target) ? `${target} ${message}` : message;
+
       const slackPostBody = {
         method: 'POST',
-        text: `${target} ${message}`,
+        text: messageWithTarget,
         attachments: [
           {
             mkdown: true,
@@ -42,7 +37,7 @@
 
       //send to webhook
       const response = await request({
-        url: SLACK_URL,
+        url: slackURL,
         method: 'POST',
         body: slackPostBody,
         json: true
