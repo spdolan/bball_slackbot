@@ -1,3 +1,41 @@
+/**
+ * Note - gd2.mlb.com states MLB Stats api should be used instead
+ * http://statsapi.mlb.com/docs/
+ * Might stop working in the future
+ * 
+ * Team codes, i.e. id: 'yyyy/mm/dd/[teamcode]mlb-[teamcode]mlb-1'
+ * ana - LA Angels
+ * ari - Arizona D-backs
+ * atl - Atlanta Braves
+ * bal - Baltimore Orioles
+ * bos - Boston Red Sox
+ * cha - Chicago White Sox
+ * chn - Chicago Cubs
+ * cin - Cincinnati Reds
+ * cle - Cleveland Indians
+ * col - Colorado Rockies
+ * det - Detroit Tigers
+ * hou - Houston Astros
+ * kca - Kansas City Royals
+ * lan - LA Dodgers
+ * mia - Miami Marlins
+ * mil - Milwaukee Brewers
+ * min - Minnesota Twins
+ * nya - New York Yankees
+ * nyn - New York Mets
+ * oak - Oakland Athletics
+ * phi - Philadelphia Phillies
+ * pit - Pittsburgh Pirates
+ * sdn - San Diego Padres
+ * sea - Seattle Mariners
+ * sfn - San Francisco Giants
+ * sln - St. Louis Cardinals
+ * tba - Tampa Bay Rays
+ * tex - Texas Rangers
+ * tor - Toronto Blue Jays
+ * was - Washington Nationals
+ */
+
 const Mlbgames = require('mlbgames');
 
 //turn today's system date into formatted path mlbGames expects
@@ -18,6 +56,7 @@ const setYesterdayStringPath = () => {
 //checks and returns if teamString (i.e. 'chc' for Chicago Cubs) had a game
 const findGameForTeam = (teamString, gamesArray) => {
   let myGames = gamesArray.filter(game => game.id.includes(teamString));
+  console.log(myGames);
   return myGames.length === 0 ? null : myGames[0];
 }
 
@@ -47,9 +86,8 @@ const gameResultMessage = (ourTeam, winningTeam) => {
 const options = setYesterdayStringPath();
 const mlbgames = new Mlbgames(options);
 mlbgames.get((err, games) => {
-  
   //let's set and check for our team
-  let myTeam = 'sf';
+  let myTeam = 'nya';
   let yesterdaysGame = findGameForTeam(myTeam, games);
   if(yesterdaysGame){
     //use our helper function to see if it's good news
