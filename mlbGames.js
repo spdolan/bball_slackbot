@@ -37,7 +37,7 @@
  */
 
 const Mlbgames = require('mlbgames');
-
+const mapMlbGames = require('./mlbTeams');
 //turn today's system date into formatted path mlbGames expects
 const setYesterdayStringPath = () => {
   //today as a new Date object
@@ -73,10 +73,10 @@ const gameResultMessage = (ourTeam, winningTeam) => {
   //if we don't want to decide, and have a catch-all against these folks in New England
   if(ourTeam === 'bos'){
     return ourTeam === winningTeam ? `Damn, the universe hath no justice.` :
-      `Huzzah, the good guys ${winningTeam.toUpperCase()} won!`;
+      `Huzzah, the good guys ${mapMlbGames[ourTeam]} won!`;
   } else {
-    return ourTeam === winningTeam ? `Huzzah, the good guys ${ourTeam.toUpperCase()} won!` :
-      `Damn, the universe hath no justice - ${ourTeam.toUpperCase()} lost.`;
+    return ourTeam === winningTeam ? `Huzzah, the good guys ${mapMlbGames[ourTeam]} won!` :
+      `Damn, the universe hath no justice - ${mapMlbGames[ourTeam]} lost.`;
   }
 }
 
@@ -95,7 +95,7 @@ const checkMlbGames = (myTeam = 'nya') => {
         let winnerCode = gameWinnerFileCode(yesterdaysGame);
         resultMessage = gameResultMessage(myTeam, winnerCode);
       } else {
-        resultMessage = `No games were played by ${myTeam} yesterday!`;
+        resultMessage = `No games were played by ${mapMlbGames[myTeam]} yesterday!`;
       }
       //return message based on our team
       console.log(resultMessage);
@@ -103,30 +103,5 @@ const checkMlbGames = (myTeam = 'nya') => {
     });
   });
 };
-
-//HELPER FUNCTIONS TO HANDLE USE OF ASYNC/AWAIT
-const getMlbGames = async (options) => {
-  // console.log(options);
-  const mlbgames = new Mlbgames(options);
-  return await mlbgames.get((err, games) => {
-    //check for issues
-    if (err) { return console.log(err) };
-    return games;
-  })
-};
-
-const checkMessage = (myTeam, gamesArray) => {
-  let yesterdaysGame = findGameForTeam(myTeam, gamesArray);
-  let resultMessage = '';
-  if (yesterdaysGame) {
-    //use our helper function to see if it's good news
-    resultMessage = gameResultMessage(myTeam, gameWinnerFileCode(yesterdaysGame));
-  } else {
-    resultMessage = `No games were played by ${myTeam} yesterday!`;
-  }
-  //return message based on our team
-  console.log(resultMessage);
-  return resultMessage;
-}
 
 module.exports = checkMlbGames;
