@@ -40,7 +40,6 @@ const Mlbgames = require('mlbgames');
 
 //turn today's system date into formatted path mlbGames expects
 const setYesterdayStringPath = () => {
-
   //today as a new Date object
   let yesterdaysDate = new Date();
   //update to yesterday's date string
@@ -56,7 +55,6 @@ const setYesterdayStringPath = () => {
 
 //checks and returns if teamString (i.e. 'chc' for Chicago Cubs) had a game
 const findGameForTeam = (teamString, gamesArray) => {
-  
   let myGames = gamesArray.filter(game => game.id.includes(teamString));
   // console.log(myGames);
   return myGames.length === 0 ? null : myGames[0];
@@ -64,17 +62,14 @@ const findGameForTeam = (teamString, gamesArray) => {
 
 //checks and returns winner's string initials from a game
 const gameWinnerFileCode = (gameObject) => {
-  
   let {away_file_code, home_file_code, linescore} = gameObject;
   if (linescore.diff == 0){return 'tie'};
   return linescore.away > linescore.home ? away_file_code : home_file_code;
 }
 
 const gameResultMessage = (ourTeam, winningTeam) => {
- 
   //seriously, why would sportsball have these?
   if(winningTeam === 'tie'){return 'Ugh, ties. So un-American.'};
-
   //if we don't want to decide, and have a catch-all against these folks in New England
   if(ourTeam === 'bos'){
     return ourTeam === winningTeam ? `Damn, the universe hath no justice.` :
@@ -83,36 +78,53 @@ const gameResultMessage = (ourTeam, winningTeam) => {
     return ourTeam === winningTeam ? `Huzzah, the good guys ${ourTeam.toUpperCase()} won!` :
       `Damn, the universe hath no justice - ${ourTeam.toUpperCase()} lost.`;
   }
-  
 }
 
-const getMlbGames = async (options) => { 
-  //passing in options object with path key formatted for what lib expects
-  const mlbgames = new Mlbgames(options);
-  const gamesArray = await mlbgames.get((err, games) => {
-    //check for issues
-    if (err) { return console.log(err) };
-    //return array of yesterday's game objects
-    return games
-  })
-
-  return gamesArray;
-}
-
-const checkMlbGames = (myTeam = 'nya') => {
+const checkMlbGames = async (myTeam = 'nya') => {
   //options will generate based on update the current system date
   const options = setYesterdayStringPath();
-  let games = getMlbGames(options);
-  //our helper returns the first game object for our team from yesterday's date
-  let yesterdaysGame = findGameForTeam(myTeam, games);
+  const mlbgames = new Mlbgames(options);
+  return await mlbgames.get((err, games) => {
+    //check for issues
+    if (err) { return console.log(err) };
+    let yesterdaysGame = findGameForTeam(myTeam, games);
+    let resultMessage = '';
+    if (yesterdaysGame) {
+      //use our helper function to see if it's good news
+      let winnerCode = gameWinnerFileCode(yesterdaysGame);
+      resultMessage = gameResultMessage(myTeam, winnerCode);
+    } else {
+      resultMessage = `No games were played by ${myTeam} yesterday!`;
+    }
+    //return message based on our team
+    console.log(resultMessage);
+    return resultMessage;
+  })
+};
+
+//HELPER FUNCTIONS TO HANDLE USE OF ASYNC/AWAIT
+const getMlbGames = async (options) => {
+  // console.log(options);
+  const mlbgames = new Mlbgames(options);
+  return await mlbgames.get((err, games) => {
+    //check for issues
+    if (err) { return console.log(err) };
+    return games;
+  })
+};
+
+const checkMessage = (myTeam, gamesArray) => {
+  let yesterdaysGame = findGameForTeam(myTeam, gamesArray);
+  let resultMessage = '';
   if (yesterdaysGame) {
     //use our helper function to see if it's good news
-    let resultMessage = gameResultMessage(myTeam, gameWinnerFileCode(yesterdaysGame));
-    //and return a message based on our team
-    return resultMessage;
+    resultMessage = gameResultMessage(myTeam, gameWinnerFileCode(yesterdaysGame));
   } else {
-    return `No games were played by ${myTeam} yesterday!`;
+    resultMessage = `No games were played by ${myTeam} yesterday!`;
   }
-};
+  //return message based on our team
+  console.log(resultMessage);
+  return resultMessage;
+}
 
 module.exports = checkMlbGames;
