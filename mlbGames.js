@@ -56,7 +56,7 @@ const setYesterdayStringPath = () => {
 //checks and returns if teamString (i.e. 'chc' for Chicago Cubs) had a game
 const findGameForTeam = (teamString, gamesArray) => {
   let myGames = gamesArray.filter(game => game.id.includes(teamString));
-  console.log(myGames);
+  // console.log(myGames);
   return myGames.length === 0 ? null : myGames[0];
 }
 
@@ -82,20 +82,24 @@ const gameResultMessage = (ourTeam, winningTeam) => {
   
 }
 
-//options will generate based on update the current system date
-const options = setYesterdayStringPath();
-const mlbgames = new Mlbgames(options);
-mlbgames.get((err, games) => {
-  //let's set and check for our team
-  let myTeam = 'nya';
-  let yesterdaysGame = findGameForTeam(myTeam, games);
-  if(yesterdaysGame){
-    //use our helper function to see if it's good news
-    let resultMessage = gameResultMessage(myTeam, gameWinnerFileCode(yesterdaysGame));
-    //and return a message based on our team
-    console.log(resultMessage);
-  } else {
-    console.log(`No games were played by ${myTeam} yesterday!`)
-  }
+const checkMlbGames = (myTeam = 'nya') => {
+  //options will generate based on update the current system date
+  const options = setYesterdayStringPath();
+  const mlbgames = new Mlbgames(options);
+  mlbgames.get((err, games) => {
+    //check for issues
+    if(err){return console.log(err)};
+    //our helper returns the first game object for our team from yesterday's date
+    let yesterdaysGame = findGameForTeam(myTeam, games);
+    if (yesterdaysGame) {
+      //use our helper function to see if it's good news
+      let resultMessage = gameResultMessage(myTeam, gameWinnerFileCode(yesterdaysGame));
+      //and return a message based on our team
+      return resultMessage;
+    } else {
+      return `No games were played by ${myTeam} yesterday!`;
+    }
+  });
+};
 
-});
+module.exports = checkMlbGames;

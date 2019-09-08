@@ -8,16 +8,15 @@
 
 
 const webhookToSlack = require('./webhookToSlack');
+const checkMlbGames = require('./mlbGames');
 
-//check the day against Boston games
+const {SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM} = require('./config');
 
-//create path string if Boston had a game 
-
-const slackInfo = require('./config');
-
+//checkMLbGames defaults to using NY Yankees code
+const gameResultMessage = MY_TEAM == '' ? checkMlbGames() : checkMlbGames(MY_TEAM);
 const slackbot = webhookToSlack();
 
 // red sox win, lose, tie
 // yankees win, lose, tie
 
-// slackbot.sendMessage(slackInfo.SLACK_CHANNEL_URL, 'testing with user but no altmessage', slackInfo.MEMBER_ID);
+slackbot.sendMessage(SLACK_CHANNEL_URL, `TEST: ${gameResultMessage}`, MEMBER_ID);
