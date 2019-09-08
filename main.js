@@ -27,6 +27,7 @@ const main = async () => {
 
   console.log(gameResultMessage);
   //send message through slackbot if appropriate
-}
+  slackbot.sendMessage(SLACK_CHANNEL_URL, `TEST: ${gameResultMessage}`, MEMBER_ID);
+};
 
 main();
