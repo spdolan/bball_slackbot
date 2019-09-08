@@ -40,6 +40,7 @@ const Mlbgames = require('mlbgames');
 
 //turn today's system date into formatted path mlbGames expects
 const setYesterdayStringPath = () => {
+
   //today as a new Date object
   let yesterdaysDate = new Date();
   //update to yesterday's date string
@@ -55,6 +56,7 @@ const setYesterdayStringPath = () => {
 
 //checks and returns if teamString (i.e. 'chc' for Chicago Cubs) had a game
 const findGameForTeam = (teamString, gamesArray) => {
+  
   let myGames = gamesArray.filter(game => game.id.includes(teamString));
   // console.log(myGames);
   return myGames.length === 0 ? null : myGames[0];
@@ -62,12 +64,14 @@ const findGameForTeam = (teamString, gamesArray) => {
 
 //checks and returns winner's string initials from a game
 const gameWinnerFileCode = (gameObject) => {
+  
   let {away_file_code, home_file_code, linescore} = gameObject;
   if (linescore.diff == 0){return 'tie'};
   return linescore.away > linescore.home ? away_file_code : home_file_code;
 }
 
 const gameResultMessage = (ourTeam, winningTeam) => {
+ 
   //seriously, why would sportsball have these?
   if(winningTeam === 'tie'){return 'Ugh, ties. So un-American.'};
 
@@ -82,24 +86,33 @@ const gameResultMessage = (ourTeam, winningTeam) => {
   
 }
 
+const getMlbGames = async (options) => { 
+  //passing in options object with path key formatted for what lib expects
+  const mlbgames = new Mlbgames(options);
+  const gamesArray = await mlbgames.get((err, games) => {
+    //check for issues
+    if (err) { return console.log(err) };
+    //return array of yesterday's game objects
+    return games
+  })
+
+  return gamesArray;
+}
+
 const checkMlbGames = (myTeam = 'nya') => {
   //options will generate based on update the current system date
   const options = setYesterdayStringPath();
-  const mlbgames = new Mlbgames(options);
-  mlbgames.get((err, games) => {
-    //check for issues
-    if(err){return console.log(err)};
-    //our helper returns the first game object for our team from yesterday's date
-    let yesterdaysGame = findGameForTeam(myTeam, games);
-    if (yesterdaysGame) {
-      //use our helper function to see if it's good news
-      let resultMessage = gameResultMessage(myTeam, gameWinnerFileCode(yesterdaysGame));
-      //and return a message based on our team
-      return resultMessage;
-    } else {
-      return `No games were played by ${myTeam} yesterday!`;
-    }
-  });
+  let games = getMlbGames(options);
+  //our helper returns the first game object for our team from yesterday's date
+  let yesterdaysGame = findGameForTeam(myTeam, games);
+  if (yesterdaysGame) {
+    //use our helper function to see if it's good news
+    let resultMessage = gameResultMessage(myTeam, gameWinnerFileCode(yesterdaysGame));
+    //and return a message based on our team
+    return resultMessage;
+  } else {
+    return `No games were played by ${myTeam} yesterday!`;
+  }
 };
 
 module.exports = checkMlbGames;

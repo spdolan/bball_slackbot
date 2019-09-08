@@ -11,9 +11,10 @@ const webhookToSlack = require('./webhookToSlack');
 const checkMlbGames = require('./mlbGames');
 
 const {SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM} = require('./config');
-
+console.log(MY_TEAM);
 //checkMLbGames defaults to using NY Yankees code
 const gameResultMessage = MY_TEAM == '' ? checkMlbGames() : checkMlbGames(MY_TEAM);
+console.log(gameResultMessage);
 const slackbot = webhookToSlack();
 
 // red sox win, lose, tie
