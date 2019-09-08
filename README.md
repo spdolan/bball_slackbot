@@ -16,7 +16,7 @@ Troll bot created by Project Shift Cohort 6. This is a general planning doc - an
   - [X] create post request
   - [X] send post req to slack channel
   - [ ] auto 'render' when model changes
-  - [ ] refactor with parameters
-    - [ ] channel, message - always required
-    - [ ] target user, alt message - optional. target user is like '@Dan'
+  - [X] refactor with parameters
+    - [X] channel, message - always required
+    - [X] target user, alt message - optional. target user is like '@Dan'
 - [ ] customize bot appearance

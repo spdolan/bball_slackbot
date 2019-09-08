@@ -80,26 +80,28 @@ const gameResultMessage = (ourTeam, winningTeam) => {
   }
 }
 
-const checkMlbGames = async (myTeam = 'nya') => {
-  //options will generate based on update the current system date
-  const options = setYesterdayStringPath();
-  const mlbgames = new Mlbgames(options);
-  return await mlbgames.get((err, games) => {
-    //check for issues
-    if (err) { return console.log(err) };
-    let yesterdaysGame = findGameForTeam(myTeam, games);
-    let resultMessage = '';
-    if (yesterdaysGame) {
-      //use our helper function to see if it's good news
-      let winnerCode = gameWinnerFileCode(yesterdaysGame);
-      resultMessage = gameResultMessage(myTeam, winnerCode);
-    } else {
-      resultMessage = `No games were played by ${myTeam} yesterday!`;
-    }
-    //return message based on our team
-    console.log(resultMessage);
-    return resultMessage;
-  })
+const checkMlbGames = (myTeam = 'nya') => {
+  return new Promise((resolve, reject) => {
+    //options will generate based on update the current system date
+    const options = setYesterdayStringPath();
+    const mlbgames = new Mlbgames(options);
+    mlbgames.get((err, games) => {
+      //check for issues
+      if (err) { return console.log(err) };
+      let yesterdaysGame = findGameForTeam(myTeam, games);
+      let resultMessage = '';
+      if (yesterdaysGame) {
+        //use our helper function to see if it's good news
+        let winnerCode = gameWinnerFileCode(yesterdaysGame);
+        resultMessage = gameResultMessage(myTeam, winnerCode);
+      } else {
+        resultMessage = `No games were played by ${myTeam} yesterday!`;
+      }
+      //return message based on our team
+      console.log(resultMessage);
+      resolve(resultMessage);
+    });
+  });
 };
 
 //HELPER FUNCTIONS TO HANDLE USE OF ASYNC/AWAIT
