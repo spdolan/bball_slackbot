@@ -80,6 +80,10 @@ const gameResultMessage = (ourTeam, winningTeam) => {
   }
 }
 
+/**
+ * returns null if no game played yesterday, otherwise string
+ * @param {string} myTeam 
+ */
 const checkMlbGames = (myTeam = 'nya') => {
   return new Promise((resolve, reject) => {
     //options will generate based on update the current system date
@@ -95,7 +99,8 @@ const checkMlbGames = (myTeam = 'nya') => {
         let winnerCode = gameWinnerFileCode(yesterdaysGame);
         resultMessage = gameResultMessage(myTeam, winnerCode);
       } else {
-        resultMessage = `No games were played by ${mapMlbGames[myTeam]} yesterday!`;
+        // resultMessage = `No games were played by ${mapMlbGames[myTeam]} yesterday!`;
+        resultMessage = null;
       }
       //return message based on our team
       console.log(resultMessage);
