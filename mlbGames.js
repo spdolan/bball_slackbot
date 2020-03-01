@@ -80,6 +80,10 @@ const gameResultMessage = (ourTeam, winningTeam) => {
   }
 }
 
+/**
+ * returns null if no game played yesterday, otherwise string
+ * @param {string} myTeam 
+ */
 const checkMlbGames = (myTeam = 'nya') => {
   return new Promise((resolve, reject) => {
     //options will generate based on update the current system date

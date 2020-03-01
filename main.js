@@ -12,22 +12,16 @@ const checkMlbGames = require('./mlbGames');
 const {SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM} = require('./config');
 const slackbot = webhookToSlack();
 
-//   // slackbot.sendMessage(SLACK_CHANNEL_URL, `TEST: ${message}`, MEMBER_ID);
-
-
-
-// red sox win, lose, tie
-// yankees win, lose, tie
-
 const main = async () => {
   //checkMLbGames defaults to using NY Yankees code
   const gameResultMessage = MY_TEAM === '' ? 
     await checkMlbGames() :
     await checkMlbGames(MY_TEAM);
-
-  console.log(gameResultMessage);
-  //send message through slackbot if appropriate
-  slackbot.sendMessage(SLACK_CHANNEL_URL, `TEST: ${gameResultMessage}`, MEMBER_ID);
+  
+  //if null, don't send anything
+  if (gameResultMessage !== null) {
+    slackbot.sendMessage(SLACK_CHANNEL_URL, `TEST: ${gameResultMessage}`, MEMBER_ID);
+  }
 };
 
 main();
