@@ -7,7 +7,7 @@ const setYesterdayStringPath = () => {
   //split for easier Day and Year extraction
   const yesterdayArray = yesterdaysDate.toDateString().split(' ');
   //we'll concatenate a 0 if the month is after October
-  const monthNumber = yesterdaysDate.getMonth() < 10 ? `0${yesterdaysDate.getMonth()}` : yesterdaysDate.getMonth();
+  const monthNumber = yesterdaysDate.getMonth() < 10 ? `0${(yesterdaysDate.getMonth()+1)}` : (yesterdaysDate.getMonth()+1);
   //combine it into the MLBGames library format
   const pathString = `year_${yesterdayArray[yesterdayArray.length - 1]}/month_${monthNumber}/day_${yesterdayArray[yesterdayArray.length - 2]}/`;
   
