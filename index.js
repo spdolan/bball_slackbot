@@ -5,8 +5,8 @@
  *  currently hard coded to red sox and yankees, make dynamic in the future
  * Based on result, send slackbot message
  */
-const webhookToSlack = require('./utilities/general/webhookToSlack');
-const checkMlbGames = require('./utilities/mlb/mlbGames');
+const webhookToSlack = require('./services/slack/webhookToSlack');
+const checkMlbGames = require('./services/mlb/mlbGames');
 const {SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM} = require('./config');
 const slackbot = webhookToSlack();
 

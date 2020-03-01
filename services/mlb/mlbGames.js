@@ -9,8 +9,10 @@
 
 const Mlbgames = require('mlbgames');
 const mapMlbTeams = require('./mlbTeams');
-const setYesterdayStringPath = require('../general/yesterdayString');
-const { findGameForTeam, gameWinnerFileCode, gameResultMessage } = require('./gameHelpers');
+const returnYesterdayStringPath = require('../../helpers/yesterdayString');
+const findGameForTeam = require('../../helpers/mlb/findGameForTeam');
+const gameWinnerFileCode = require('../../helpers/mlb/gameWinnerFileCode');
+const gameResultMessage = require('../../helpers/mlb/gameResultMessage');
 
 /**
  * returns null if no game played yesterday, otherwise string
@@ -20,7 +22,7 @@ const { findGameForTeam, gameWinnerFileCode, gameResultMessage } = require('./ga
 const checkMlbGames = (myTeam = 'nya') => {
   return new Promise((resolve, reject) => {
     //path will generate based on update the current system date
-    const path = setYesterdayStringPath();
+    const path = returnYesterdayStringPath();
     const mlbgames = new Mlbgames({path});
     mlbgames.get((err, games) => {
       //check for issues

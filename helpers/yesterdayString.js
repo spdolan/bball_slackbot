@@ -1,5 +1,5 @@
 //turn today's system date into formatted path mlbGames expects
-const setYesterdayStringPath = () => {
+const returnYesterdayStringPath = () => {
   //today as a new Date object
   const yesterdaysDate = new Date();
   //update to yesterday's date string
@@ -14,4 +14,4 @@ const setYesterdayStringPath = () => {
   return pathString
 }
 
-module.exports = setYesterdayStringPath;
+module.exports = returnYesterdayStringPath;

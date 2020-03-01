@@ -1,8 +1,8 @@
 
 const { SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM } = require('./config');
 const Mlbgames = require('mlbgames');
-const mapMlbTeams = require('./utilities/mlb/mlbTeams');
-const setYesterdayStringPath = require('./utilities/general/yesterdayString');
+const mapMlbTeams = require('./services/mlb/mlbTeams');
+const setYesterdayStringPath = require('./helpers/yesterdayString');
 // const { findGameForTeam, gameWinnerFileCode, gameResultMessage } = require('./gameHelpers');
 
 const path = setYesterdayStringPath();
