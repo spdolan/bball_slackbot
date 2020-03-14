@@ -1,9 +1,9 @@
 //turn today's system date into formatted path mlbGames expects
-const returnYesterdayStringPath = () => {
+const returnPriorDayStringPath = (daysPrior = 1) => {
   //today as a new Date object
   const yesterdaysDate = new Date();
   //update to yesterday's date string
-  yesterdaysDate.setDate(yesterdaysDate.getDate() - 1);
+  yesterdaysDate.setDate(yesterdaysDate.getDate() - daysPrior);
   //split for easier Day and Year extraction
   const yesterdayArray = yesterdaysDate.toDateString().split(' ');
   //we'll concatenate a 0 if the month is after October
@@ -14,4 +14,4 @@ const returnYesterdayStringPath = () => {
   return pathString
 }
 
-module.exports = returnYesterdayStringPath;
+module.exports = returnPriorDayStringPath;

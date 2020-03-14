@@ -1,11 +1,8 @@
-
-const { SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM } = require('./config');
 const Mlbgames = require('mlbgames');
 const mapMlbTeams = require('./services/mlb/mlbTeams');
-const setYesterdayStringPath = require('./helpers/yesterdayString');
+const returnPriorDayStringPath = require('./helpers/returnPriorDayStringPath');
 // const { findGameForTeam, gameWinnerFileCode, gameResultMessage } = require('./gameHelpers');
-
-const path = setYesterdayStringPath();
+const path = returnPriorDayStringPath(2);
 console.log(path)
 const mlbgames = new Mlbgames({ path });
 mlbgames.get((err, games) => {
@@ -14,4 +11,3 @@ mlbgames.get((err, games) => {
 
   console.log(games);
 })
-

@@ -9,7 +9,7 @@
 
 const Mlbgames = require('mlbgames');
 const mapMlbTeams = require('./mlbTeams');
-const returnYesterdayStringPath = require('../../helpers/yesterdayString');
+const returnPriorDayStringPath = require('../../helpers/returnPriorDayStringPath');
 const findGameForTeam = require('../../helpers/mlb/findGameForTeam');
 const gameWinnerFileCode = require('../../helpers/mlb/gameWinnerFileCode');
 const gameResultMessage = require('../../helpers/mlb/gameResultMessage');
@@ -22,7 +22,7 @@ const gameResultMessage = require('../../helpers/mlb/gameResultMessage');
 const checkMlbGames = (myTeam = 'nya') => {
   return new Promise((resolve, reject) => {
     //path will generate based on update the current system date
-    const path = returnYesterdayStringPath();
+    const path = returnPriorDayStringPath(1);
     const mlbgames = new Mlbgames({path});
     mlbgames.get((err, games) => {
       //check for issues
