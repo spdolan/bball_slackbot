@@ -1,6 +1,6 @@
 /**
  * General plan -
- * Run node daily (heroku scheduler http://www.modeo.co/blog/2015/1/8/heroku-scheduler-with-nodejs-tutorial)
+ * Run node daily
  * GET MLB data
  *  currently hard coded to red sox and yankees, make dynamic in the future
  * Based on result, send slackbot message
@@ -10,7 +10,7 @@ const checkMlbGames = require('./services/mlb/mlbGames');
 const {SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM} = require('./config');
 const slackbot = webhookToSlack();
 
-const main = async () => {
+export const runBaseballSlackbot = async () => {
   //checkMLbGames defaults to using NY Yankees code
   const gameResultMessage = MY_TEAM === '' ? 
     await checkMlbGames() :
@@ -22,4 +22,4 @@ const main = async () => {
   }
 };
 
-main();
+// runBaseballSlackbot();
