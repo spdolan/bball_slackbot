@@ -1,9 +1,8 @@
 'use strict';
 
-const runBaseballSlackbot = require('./index.js')
-
+const runBaseballSlackbot = require('./index.js').runBaseballSlackbot
+// runBaseballSlackbot();
 module.exports.runBot = async (event, context) => {
-  
   console.time('runBaseballSlackbot');
   await runBaseballSlackbot();
   console.timeEnd('runBaseballSlackbot');

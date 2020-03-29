@@ -20,6 +20,7 @@ const gameResultMessage = require('../../helpers/mlb/gameResultMessage');
  */
 
 const checkMlbGames = (myTeam = 'nya') => {
+  console.log(`start checkMlbGames`);
   return new Promise((resolve, reject) => {
     //path will generate based on update the current system date
     const path = returnPriorDayStringPath(1);
@@ -38,6 +39,7 @@ const checkMlbGames = (myTeam = 'nya') => {
       }
       //return message based on our team
       console.log(resultMessage);
+      console.log(`end checkMlbGames`);
       resolve(resultMessage);
     });
   });

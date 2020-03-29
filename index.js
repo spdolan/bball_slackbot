@@ -8,18 +8,39 @@
 const webhookToSlack = require('./services/slack/webhookToSlack');
 const checkMlbGames = require('./services/mlb/mlbGames');
 const {SLACK_CHANNEL_URL, MEMBER_ID, MY_TEAM} = require('./config');
-const slackbot = webhookToSlack();
+const request = require('request-promise');
 
-export const runBaseballSlackbot = async () => {
+module.exports.runBaseballSlackbot = async () => {
+  console.log(`start of lambda`);
+
   //checkMLbGames defaults to using NY Yankees code
   const gameResultMessage = MY_TEAM === '' ? 
     await checkMlbGames() :
     await checkMlbGames(MY_TEAM);
   
-  //if null, don't send anything
+  // if null, don't send anything
   if (gameResultMessage !== null) {
-    slackbot.sendMessage(SLACK_CHANNEL_URL, `TEST: ${gameResultMessage}`, MEMBER_ID);
-  }
-};
+    const messageWithTarget = `${MEMBER_ID} ${gameResultMessage}`;
 
-// runBaseballSlackbot();
+    const response = await request({
+      url: 'https://hooks.slack.com/services/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',
+      method: 'POST',
+      body: {
+        method: 'POST',
+        text: messageWithTarget,
+        attachments: [
+          {
+            mkdown: true,
+            color: '#40e0d0',
+            text: ''
+          }
+        ]
+      },
+      json: true
+    });
+
+    return response;
+  }
+
+  return 'gameResultMessage is null';
+};

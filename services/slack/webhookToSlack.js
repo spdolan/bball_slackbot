@@ -19,6 +19,7 @@
  const webhookToSlack = () => {
 
   const sendMessage = async (slackURL, message, target, altMessage) => {
+    console.log(`start sendMessage`);
     try {
       //create post body
       const messageWithTarget = (target) ? `${target} ${message}` : message;
@@ -34,7 +35,9 @@
           }
         ]
       };
-
+      console.log(`slackurl: ${slackURL}`);
+      console.log(`message: ${messageWithTarget}`);
+      console.log(`body: ${slackPostBody}`);
       //send to webhook
       const response = await request({
         url: slackURL,
