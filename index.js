@@ -11,22 +11,25 @@ const checkMlbGames = require('./services/mlb/mlbGames');
 const { MEMBER_ID, MY_TEAM } = require('./config');
 const request = require('request-promise');
 
-const region = "us-east-1";
-const secretName = "bballSlackbot-slack-url";
-
 module.exports.runBaseballSlackbot = async () => {
+  console.log(`in runBaseballSlackbot`);
   // Following code is from aws secrets docs
+  const region = "us-east-1";
+  const secretName = "bballSlackbot-slack-url";
   let secret;
   //not used, but here as example
   let decodedBinarySecret;
 
   // Create a Secrets Manager client
+  console.log(`before aws.secretsmanager`);
   const client = new AWS.SecretsManager({ region: region });
+  console.log(`client:`, client);
 
   // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
   // See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
   // We rethrow the exception by default.
   client.getSecretValue({SecretId: secretName}, async function(err, data) {
+    console.log(err, data);
     if (err) {
       if (err.code === 'DecryptionFailureException')
         // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
@@ -59,30 +62,30 @@ module.exports.runBaseballSlackbot = async () => {
         decodedBinarySecret = buff.toString('ascii');
       }
     }
-
-    // Your code goes here.
-    //checkMLbGames defaults to using NY Yankees code
-    const gameResultMessage = MY_TEAM === '' ? 
-      await checkMlbGames() :
-      await checkMlbGames(MY_TEAM);
-
-    // if null, don't send anything
-    if (gameResultMessage !== null) {
-      const messageWithTarget = `${MEMBER_ID} ${gameResultMessage}`;
-
-      //send message to slack
-      const response = await request({
-        url: secret.SLACK_CHANNEL_URL,
-        method: 'POST',
-        body: {
-          text: messageWithTarget
-        },
-        json: true
-      });
-
-      return response;
-    }
   });
+
+  console.log(secret);
+  //checkMLbGames defaults to using NY Yankees code
+  const gameResultMessage = MY_TEAM === '' ? 
+    await checkMlbGames() :
+    await checkMlbGames(MY_TEAM);
+  console.log(gameResultMessage);
+  // if null, don't send anything
+  if (gameResultMessage !== null) {
+    const messageWithTarget = `${MEMBER_ID} ${gameResultMessage}`;
+
+    //send message to slack
+    const response = await request({
+      url: secret.SLACK_CHANNEL_URL,
+      method: 'POST',
+      body: {
+        text: messageWithTarget
+      },
+      json: true
+    });
+    console.log(response);
+    return response;
+  }
 
   return 'gameResultMessage is null';
 };
