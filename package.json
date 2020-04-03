@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.652.0",
     "cron": "^1.8.2",
     "mlbgames": "^1.0.5",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
-  },
-  "devDependencies": {}
+  }
 }

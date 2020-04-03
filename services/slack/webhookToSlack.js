@@ -38,6 +38,8 @@
       console.log(`slackurl: ${slackURL}`);
       console.log(`message: ${messageWithTarget}`);
       console.log(`body: ${slackPostBody}`);
+
+      //lambda gets here, but breaks somehow. does not get to next console log
       //send to webhook
       const response = await request({
         url: slackURL,

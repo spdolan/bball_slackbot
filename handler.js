@@ -10,3 +10,5 @@ module.exports.runBot = async (event, context) => {
   //we aren't returning to anything, this was a recommended return in aws docs iirc
   return context.logStreamName
 }
+
+runBaseballSlackbot()
