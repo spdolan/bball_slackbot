@@ -37,7 +37,6 @@ const checkMlbGames = (myTeam = 'nya') => {
         resultMessage = `No games were played by ${mapMlbTeams[myTeam]} yesterday!`;
       }
       //return message based on our team
-      console.log(resultMessage);
       resolve(resultMessage);
     });
   });

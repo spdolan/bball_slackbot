@@ -6,7 +6,6 @@
 const userId = ''; //get userId from slack workspace
 
 module.exports = {
-  SLACK_CHANNEL_URL: '',
   MEMBER_ID: `<@${userId}>`,
   MY_TEAM: ''
 };
